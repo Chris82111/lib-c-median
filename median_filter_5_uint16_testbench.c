@@ -26,11 +26,11 @@
  *  private: function prototypes
  *---------------------------------------------------------------------*/
 
-void run_example(void);
-void run_handler(median_filter_5_uint16_t * object);
-bool run_handler_test(void);
-bool run_with_test_data_sub(uint16_t * input, uint16_t * result);
-bool run_with_test_data(void);
+static void run_example(void);
+static void run_handler(median_filter_5_uint16_t * object);
+static bool run_handler_test(void);
+static bool run_with_test_data_sub(uint16_t * input, uint16_t * result);
+static bool run_with_test_data(void);
 
 bool median_filter_5_uint16_test(void);
 
@@ -39,8 +39,8 @@ bool median_filter_5_uint16_test(void);
  *  private: functions
  *---------------------------------------------------------------------*/
 
-void run_example(void){
-	uint16_t min, median, max;
+static void run_example(void){
+	uint16_t min = 0, median = 0, max = 0;
 
 	median_filter_5_uint16_t median5 = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -55,16 +55,21 @@ void run_example(void){
 	        max = median5.data[4]; // is 4
 	    }
 	}
+
+	// Solves `variable set but not used`
+	min = median;
+	median = max;
+	max = min;
 }
 
-void run_handler(median_filter_5_uint16_t * object)
+static void run_handler(median_filter_5_uint16_t * object)
 {
 	uint8_t i = object->length;
 	i = 8;
 	object->length = i;
 }
 
-bool run_handler_test(void)
+static bool run_handler_test(void)
 {
 	median_filter_5_uint16_t med = { 0 };
 
@@ -88,7 +93,7 @@ bool run_handler_test(void)
 	}
 }
 
-bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
+static bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
 {
 	median_filter_5_uint16_t med = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -107,7 +112,7 @@ bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
 	}
 }
 
-bool run_with_test_data(void)
+static bool run_with_test_data(void)
 {
 	// Test data:
 	// input_data
