@@ -51,22 +51,22 @@ typedef void (*median_filter_5_uint16_handler_t)(median_filter_5_uint16_t * obje
 //!
 typedef struct median_filter_5_uint16_s {
 
-	//! Last median value, is updated after `calculated` was called
-	uint16_t old_median;
+    //! Last median value, is updated after `calculated` was called
+    uint16_t old_median;
 
-	//! Number of measured values, size of the `median_filter_5_uint16_t.data` array.
-	//! The length is used to store the number of elements.
-	uint8_t length;
+    //! Number of measured values, size of the `median_filter_5_uint16_t.data` array.
+    //! The length is used to store the number of elements.
+    uint8_t length;
 
-	//! Index of the `median_filter_5_uint16_t.data` array that will be filled next.
-	uint8_t index;
+    //! Index of the `median_filter_5_uint16_t.data` array that will be filled next.
+    uint8_t index;
 
-	//! Function that is called after the last value is stored
-	median_filter_5_uint16_handler_t calculated;
+    //! Function that is called after the last value is stored
+    median_filter_5_uint16_handler_t calculated;
 
-	//! Measured values in ascending order, `median_filter_5_uint16_t.index` shows
-	//! which values belong to the current cycle.
-	uint16_t data[5];
+    //! Measured values in ascending order, `median_filter_5_uint16_t.index` shows
+    //! which values belong to the current cycle.
+    uint16_t data[5];
 
 }median_filter_5_uint16_t;
 
