@@ -25,7 +25,6 @@ extern "C" {
 #define MEDIAN_FILTER_5_UINT16_INIT() \
 {                                     \
     /* .old_median */ (0),            \
-    /* .length     */ (5),            \
     /* .index      */ (0),            \
     /* .calculated */ (0),            \
     /* .data       */ {0,0,0,0,0},    \
@@ -53,10 +52,6 @@ typedef struct median_filter_5_uint16_s {
 
     //! Last median value, is updated after `calculated` was called
     uint16_t old_median;
-
-    //! Number of measured values, size of the `median_filter_5_uint16_t.data` array.
-    //! The length is used to store the number of elements.
-    uint8_t length;
 
     //! Index of the `median_filter_5_uint16_t.data` array that will be filled next.
     uint8_t index;

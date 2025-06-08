@@ -35,7 +35,6 @@ void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
     object->index = 0;
 
 #if false
-    object->length = 5;
 
     uint16_t * data = object->data;
     

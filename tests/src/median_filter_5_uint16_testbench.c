@@ -64,9 +64,7 @@ static void run_example(void){
 
 static void run_handler(median_filter_5_uint16_t * object)
 {
-    uint8_t i = object->length;
-    i = 8;
-    object->length = i;
+    object->data[0] = 100;
 }
 
 static uint16_t run_handler_test(void)
@@ -83,7 +81,7 @@ static uint16_t run_handler_test(void)
         median_filter_5_uint16_add(&med, input_data[i]);
     }
 
-    if(8 == med.length && result_data[2] == med.old_median)
+    if(100 == med.data[0] && result_data[2] == med.old_median)
     {
         return 0;
     }
