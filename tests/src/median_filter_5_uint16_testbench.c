@@ -6,8 +6,10 @@
 #include <inttypes.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #include "median_filter_5_uint16.h"
+#include "median_filter_5_uint16_testbench.h"
 
 
 /*---------------------------------------------------------------------*
@@ -28,11 +30,9 @@
 
 static void run_example(void);
 static void run_handler(median_filter_5_uint16_t * object);
-static bool run_handler_test(void);
-static bool run_with_test_data_sub(uint16_t * input, uint16_t * result);
-static bool run_with_test_data(void);
-
-bool median_filter_5_uint16_test(void);
+static uint16_t run_handler_test(void);
+static uint16_t run_with_test_data_sub(uint16_t * input, uint16_t * result);
+static uint16_t run_with_test_data(void);
 
 
 /*---------------------------------------------------------------------*
@@ -69,7 +69,7 @@ static void run_handler(median_filter_5_uint16_t * object)
     object->length = i;
 }
 
-static bool run_handler_test(void)
+static uint16_t run_handler_test(void)
 {
     median_filter_5_uint16_t med = { 0 };
 
@@ -93,7 +93,7 @@ static bool run_handler_test(void)
     }
 }
 
-static bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
+static uint16_t run_with_test_data_sub(uint16_t * input, uint16_t * result)
 {
     median_filter_5_uint16_t med = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -112,7 +112,7 @@ static bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
     }
 }
 
-static bool run_with_test_data(void)
+static uint16_t run_with_test_data(void)
 {
     // Test data:
     // input_data
@@ -4850,29 +4850,17 @@ static bool run_with_test_data(void)
  *  public:  functions
  *---------------------------------------------------------------------*/
 
-/*
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern bool median_filter_5_uint16_test(void);
-
-#ifdef __cplusplus
-}
-#endif
-*/
-
-bool median_filter_5_uint16_test(void)
+uint16_t median_filter_5_uint16_test(void)
 {
-    run_example();
-
     uint16_t errors = 0;
 
     errors += run_with_test_data();
 
     errors += run_handler_test();
 
-    return (0 == errors);
+    run_example();
+
+    return errors;
 }
 
 
