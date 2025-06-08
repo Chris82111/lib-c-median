@@ -1,3 +1,7 @@
+//! @file
+//! @brief The median_filter_5_uint16 source file.
+
+
 /*---------------------------------------------------------------------*
  *  private: include files
  *---------------------------------------------------------------------*/
@@ -28,23 +32,6 @@
 /*---------------------------------------------------------------------*
  *  public:  functions
  *---------------------------------------------------------------------*/
-
-void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
-{
-    object->old_median = 0;
-    object->index = 0;
-
-#if false
-
-    uint16_t * data = object->data;
-    
-    for(uint16_t i = 0; i < 5; i++)
-    {
-        *(data + i) = 0;
-    }
-#endif
-
-}
 
 bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t value)
 {
@@ -189,6 +176,41 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
         } break;
     }
     return overflow;
+}
+
+void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
+{
+    object->old_median = 0;
+    object->index = 0;
+
+#if false
+
+    object->data[0] = 0;
+    object->data[1] = 0;
+    object->data[2] = 0;
+    object->data[3] = 0;
+    object->data[4] = 0;
+
+#endif
+
+}
+
+void median_filter_5_uint16_init(median_filter_5_uint16_t * object)
+{
+    object->old_median = 0;
+    object->index = 0;
+    object->on_calculated = NULL;
+
+#if false
+
+    object->data[0] = 0;
+    object->data[1] = 0;
+    object->data[2] = 0;
+    object->data[3] = 0;
+    object->data[4] = 0;
+
+#endif
+
 }
 
 

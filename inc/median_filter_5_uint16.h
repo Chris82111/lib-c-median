@@ -1,4 +1,8 @@
 //! @file
+//! @brief The median_filter_5_uint16 header file.
+//!
+//! @details The module can be used in C and C++.
+
 
 #ifndef INC_MEDIAN_FILTER_5_UINT16_H_
 #define INC_MEDIAN_FILTER_5_UINT16_H_
@@ -73,8 +77,9 @@ typedef struct median_filter_5_uint16_s {
  *  public: function prototypes
  *---------------------------------------------------------------------*/
 
-void median_filter_5_uint16_clear(median_filter_5_uint16_t * object);
 bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t value);
+void median_filter_5_uint16_clear(median_filter_5_uint16_t * object);
+void median_filter_5_uint16_init(median_filter_5_uint16_t * object);
 
 
 /*---------------------------------------------------------------------*
