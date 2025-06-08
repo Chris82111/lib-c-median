@@ -40,6 +40,7 @@ static uint16_t run_with_test_data(void);
  *---------------------------------------------------------------------*/
 
 static void run_example(void){
+
     uint16_t min = 0, median = 0, max = 0;
 
     median_filter_5_uint16_t median5 = MEDIAN_FILTER_5_UINT16_INIT();
@@ -48,7 +49,7 @@ static void run_example(void){
 
     for(uint8_t i = 0; i < 5; i++)
     {
-        if(median_filter_5_uint16_add(&median5, input_data[i]))
+        if(median_filter_5_uint16.Add(&median5, input_data[i]))
         {
             min = median5.data[0]; // is 1
             median = median5.old_median; // is 2

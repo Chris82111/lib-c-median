@@ -72,9 +72,30 @@ typedef struct median_filter_5_uint16_s {
 }median_filter_5_uint16_t;
 
 
+//! @brief Represents a simplified form of a class
+//!
+//! @details The global variable ::median_filter_5_uint16 can be used to easily
+//! access all matching functions with auto-completion.
+struct median_filter_5_uint16_sc
+{
+    bool (*Add) (median_filter_5_uint16_t * object, uint16_t value);
+    void (*Clear) (median_filter_5_uint16_t * object);
+    void (*Init) (median_filter_5_uint16_t * object);
+};
+
+
 /*---------------------------------------------------------------------*
  *  public: extern variables
  *---------------------------------------------------------------------*/
+
+//! @brief To access all member functions working with type ::median_filter_5_uint16_s
+//!
+//! @details Allows a simplified class to easily access all member functions
+//! working with type ::median_filter_5_uint16_s. The auto-completion function helps you
+//! to select all suitable functions via ::median_filter_5_uint16_sc struct.
+extern const struct median_filter_5_uint16_sc median_filter_5_uint16;
+
+
 /*---------------------------------------------------------------------*
  *  public: function prototypes
  *---------------------------------------------------------------------*/

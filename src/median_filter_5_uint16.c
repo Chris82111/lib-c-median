@@ -21,6 +21,15 @@
 /*---------------------------------------------------------------------*
  *  public:  variables
  *---------------------------------------------------------------------*/
+
+const struct median_filter_5_uint16_sc median_filter_5_uint16 =
+{
+    median_filter_5_uint16_add,
+    median_filter_5_uint16_clear,
+    median_filter_5_uint16_init,
+};
+
+
 /*---------------------------------------------------------------------*
  *  private: function prototypes
  *---------------------------------------------------------------------*/
@@ -206,16 +215,11 @@ void median_filter_5_uint16_init(median_filter_5_uint16_t * object)
     object->index = 0;
     object->on_calculated = NULL;
 
-#if false
-
     object->data[0] = 0;
     object->data[1] = 0;
     object->data[2] = 0;
     object->data[3] = 0;
     object->data[4] = 0;
-
-#endif
-
 }
 
 
