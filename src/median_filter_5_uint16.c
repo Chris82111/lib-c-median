@@ -8,8 +8,6 @@
 
 #include "median_filter_5_uint16.h"
 
-#include <string.h>
-
 
 /*---------------------------------------------------------------------*
  *  private: definitions
@@ -36,17 +34,17 @@
 bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t value)
 {
     uint16_t * data0 = object->data;
-    uint8_t * ptr_index = &object->index;
-    uint8_t index = *ptr_index;
-    bool overflow = false;
+    uint8_t index = object->index;
 
     switch(index)
     {
         case 0:
         {
             *data0 = value;
-            *ptr_index = index + 1;
-        } break;
+            object->index = index + 1;
+        }
+        return false;
+
         case 1:
         {
             uint16_t * data1 = data0 + 1;
@@ -59,8 +57,10 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            *ptr_index = index + 1;
-        } break;
+            object->index = index + 1;
+        }
+        return false;
+
         case 2:
         {
             uint16_t * data1 = data0 + 1;
@@ -84,8 +84,10 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            *ptr_index = index + 1;
-        } break;
+            object->index = index + 1;
+        }
+        return false;
+
         case 3:
         {
             uint16_t * data1 = data0 + 1;
@@ -120,8 +122,10 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            *ptr_index = index + 1;
-        } break;
+            object->index = index + 1;
+        }
+        return false;
+
         case 4:
         {
             uint16_t * data1 = data0 + 1;
@@ -168,14 +172,15 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            *ptr_index = 0;
             if(object->on_calculated) { object->on_calculated(object); }
+            object->index = 0;
             object->old_median = *data2;
-            overflow = true;
+        }
+        return true;
 
-        } break;
+        default:
+        return false;
     }
-    return overflow;
 }
 
 void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
