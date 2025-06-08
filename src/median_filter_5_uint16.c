@@ -182,8 +182,7 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data0 = value;
             }
             *ptr_index = 0;
-            median_filter_5_uint16_handler_t calculated =  object->calculated;
-            if(NULL != calculated) { calculated(object); }
+            if(object->on_calculated) { object->on_calculated(object); }
             object->old_median = *data2;
             overflow = true;
 

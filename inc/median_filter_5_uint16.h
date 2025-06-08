@@ -22,13 +22,13 @@ extern "C" {
 
 //! @brief This macro initializes the median filter 5.
 //!
-#define MEDIAN_FILTER_5_UINT16_INIT() \
-{                                     \
-    /* .old_median */ (0),            \
-    /* .index      */ (0),            \
-    /* .calculated */ (0),            \
-    /* .data       */ {0,0,0,0,0},    \
-}
+#define MEDIAN_FILTER_5_UINT16_INIT()   \
+{                                       \
+    /* .old_median    = */ (0),         \
+    /* .index         = */ (0),         \
+    /* .on_calculated = */ (0),         \
+    /* .data          = */ {0,0,0,0,0}, \
+} // ;
 
 
 /*---------------------------------------------------------------------*
@@ -41,7 +41,7 @@ extern "C" {
 typedef struct median_filter_5_uint16_s median_filter_5_uint16_t;
 
 //! @brief Function pointer as a handler that is called after the 5th value has
-//!        been saved and the median value can be used, see `median_filter_5_uint16_t.calculated`
+//!        been saved and the median value can be used, see `median_filter_5_uint16_t.on_calculated`
 //! @param[in,out] object The median filter 5 uint16 object
 //!
 typedef void (*median_filter_5_uint16_handler_t)(median_filter_5_uint16_t * object);
@@ -50,14 +50,14 @@ typedef void (*median_filter_5_uint16_handler_t)(median_filter_5_uint16_t * obje
 //!
 typedef struct median_filter_5_uint16_s {
 
-    //! Last median value, is updated after `calculated` was called
+    //! Last median value, is updated after `on_calculated` was called
     uint16_t old_median;
 
     //! Index of the `median_filter_5_uint16_t.data` array that will be filled next.
     uint8_t index;
 
     //! Function that is called after the last value is stored
-    median_filter_5_uint16_handler_t calculated;
+    median_filter_5_uint16_handler_t on_calculated;
 
     //! Measured values in ascending order, `median_filter_5_uint16_t.index` shows
     //! which values belong to the current cycle.

@@ -74,7 +74,7 @@ static uint16_t run_handler_test(void)
     uint16_t input_data[] = { 2, 1, 1, 1, 3 };
     uint16_t result_data[] = { 1, 1, 1, 2, 3 };
 
-    med.calculated = run_handler;
+    med.on_calculated = run_handler;
 
     for(uint8_t i = 0; i < 5; i++)
     {
