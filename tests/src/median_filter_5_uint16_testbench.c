@@ -4843,6 +4843,26 @@ static uint16_t run_with_test_data(void)
 
 }
 
+static uint16_t median_filter_5_uint16_test_set_data()
+{
+    uint16_t errors = 0;
+
+    median_filter_5_uint16_t med = MEDIAN_FILTER_5_UINT16_INIT();
+
+    uint16_t input_data[] = { 2, 1, 1, 1, 3 };
+    uint16_t result_data[] = { 1, 1, 1, 2, 3 };
+    uint16_t data[5] = { 0 };
+
+    median_filter_5_uint16.SetData(&med, input_data);
+    median_filter_5_uint16.GetData(&med, data);
+
+    if(0 != memcmp(data, result_data, sizeof(data))){ errors += 1; }
+    if(0 != memcmp(med.data, result_data, sizeof(data))){ errors += 1; }
+
+    return errors;
+}
+
+
 /*---------------------------------------------------------------------*
  *  public:  functions
  *---------------------------------------------------------------------*/
@@ -4854,6 +4874,8 @@ uint16_t median_filter_5_uint16_test(void)
     errors += run_with_test_data();
 
     errors += run_handler_test();
+
+    errors += median_filter_5_uint16_test_set_data();
 
     run_example();
 

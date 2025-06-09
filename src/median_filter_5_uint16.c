@@ -32,6 +32,7 @@ const struct median_filter_5_uint16_sc median_filter_5_uint16 =
     median_filter_5_uint16_max,
     median_filter_5_uint16_median,
     median_filter_5_uint16_min,
+    median_filter_5_uint16_set_data,
 };
 
 
@@ -262,6 +263,15 @@ uint16_t median_filter_5_uint16_min(const median_filter_5_uint16_t * object)
     return object->data[MEDIAN_FILTER_5_DATA_INDEX_MIN];
 }
 
+bool median_filter_5_uint16_set_data(median_filter_5_uint16_t * object, uint16_t * data)
+{
+    median_filter_5_uint16_add(object, data[0]);
+    median_filter_5_uint16_add(object, data[1]);
+    median_filter_5_uint16_add(object, data[2]);
+    median_filter_5_uint16_add(object, data[3]);
+    median_filter_5_uint16_add(object, data[4]);
+    return true;
+}
 
 /*---------------------------------------------------------------------*
  *  eof

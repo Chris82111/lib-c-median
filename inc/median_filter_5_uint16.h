@@ -96,10 +96,11 @@ struct median_filter_5_uint16_sc
     void (*Clear) (median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_clear()
     void (*GetData) (const median_filter_5_uint16_t * object, uint16_t * data); ///< @see ::median_filter_5_uint16_get_data()
     void (*Init) (median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_init()
-    bool (*IsReady)(const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_is_ready()
-    uint16_t (*Max)(const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_max()
-    uint16_t (*Median)(const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_median()
-    uint16_t (*Min)(const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_min()
+    bool (*IsReady) (const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_is_ready()
+    uint16_t (*Max) (const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_max()
+    uint16_t (*Median) (const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_median()
+    uint16_t (*Min) (const median_filter_5_uint16_t * object); ///< @see ::median_filter_5_uint16_min()
+    bool (*SetData) (median_filter_5_uint16_t * object, uint16_t * data); ///< @see ::median_filter_5_uint16_set_data()
 };
 
 
@@ -177,6 +178,16 @@ uint16_t median_filter_5_uint16_median(const median_filter_5_uint16_t * object);
 //! @param[in] object The minimum object
 //! @return The minimum value
 uint16_t median_filter_5_uint16_min(const median_filter_5_uint16_t * object);
+
+//! @brief Sets all data
+//!
+//! @details The function ::median_filter_5_uint16_add() is used to set
+//! the data so that all data values are ordered.
+//!
+//! @param[in,out] object The median object
+//! @param[out] data The source from which the data is used
+//! @retval true All elements have been read
+bool median_filter_5_uint16_set_data(median_filter_5_uint16_t * object, uint16_t * data);
 
 
 /*---------------------------------------------------------------------*
