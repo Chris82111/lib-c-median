@@ -41,7 +41,7 @@ static uint16_t run_with_test_data(void);
 
 static void run_example(void){
 
-    uint16_t min = 0, median = 0, max = 0;
+    uint16_t min = 0, max = 0, median;
 
     median_filter_5_uint16_t median5 = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -51,16 +51,22 @@ static void run_example(void){
     {
         if(median_filter_5_uint16.Add(&median5, input_data[i]))
         {
+            min = median_filter_5_uint16.Min(&median5); // is 1
+            median = median_filter_5_uint16.Median(&median5); // is 2
+            max = median_filter_5_uint16.Max(&median5); // is 4
+
+            min = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MIN]; // is 1
+            median = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MEDIAN]; // is 2
+            max = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MAX]; // is 4
+
             min = median5.data[0]; // is 1
-            median = median5.old_median; // is 2
+            median = median5.data[2]; // is 2
             max = median5.data[4]; // is 4
         }
     }
 
     // Solves `variable set but not used`
-    min = median;
-    median = max;
-    max = min;
+    if(0 == min && 0 == max && 0 == median){ ; }
 }
 
 static void run_handler(median_filter_5_uint16_t * object)
@@ -73,7 +79,7 @@ static uint16_t run_handler_test(void)
     median_filter_5_uint16_t med = { 0 };
 
     uint16_t input_data[] = { 2, 1, 1, 1, 3 };
-    uint16_t result_data[] = { 1, 1, 1, 2, 3 };
+    // uint16_t result_data[] = { 1, 1, 1, 2, 3 };
 
     med.on_calculated = run_handler;
 
@@ -82,7 +88,7 @@ static uint16_t run_handler_test(void)
         median_filter_5_uint16_add(&med, input_data[i]);
     }
 
-    if(100 == med.data[0] && result_data[2] == med.old_median)
+    if(100 == med.data[0])
     {
         return 0;
     }

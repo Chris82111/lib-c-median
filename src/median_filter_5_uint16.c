@@ -26,7 +26,12 @@ const struct median_filter_5_uint16_sc median_filter_5_uint16 =
 {
     median_filter_5_uint16_add,
     median_filter_5_uint16_clear,
+    median_filter_5_uint16_get_data,
     median_filter_5_uint16_init,
+    median_filter_5_uint16_is_ready,
+    median_filter_5_uint16_max,
+    median_filter_5_uint16_median,
+    median_filter_5_uint16_min,
 };
 
 
@@ -43,18 +48,21 @@ const struct median_filter_5_uint16_sc median_filter_5_uint16 =
 bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t value)
 {
     uint16_t * data0 = object->data;
-    uint8_t index = object->index;
 
-    switch(index)
+    switch(object->state)
     {
-        case 0:
+        case MEDIAN_FILER_5_UNINIT:
+        case MEDIAN_FILER_5_READY:
         {
+            object->state = MEDIAN_FILER_5_WORKING_1;
+
             *data0 = value;
-            object->index = index + 1;
+
+            object->state = MEDIAN_FILER_5_WORKING_2;
         }
         return false;
 
-        case 1:
+        case MEDIAN_FILER_5_WORKING_2:
         {
             uint16_t * data1 = data0 + 1;
             if(*data0 <= value)
@@ -66,11 +74,12 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            object->index = index + 1;
+
+            object->state = MEDIAN_FILER_5_WORKING_3;
         }
         return false;
 
-        case 2:
+        case MEDIAN_FILER_5_WORKING_3:
         {
             uint16_t * data1 = data0 + 1;
             uint16_t * data2 = data0 + 2;
@@ -93,11 +102,12 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            object->index = index + 1;
+
+            object->state = MEDIAN_FILER_5_WORKING_4;
         }
         return false;
 
-        case 3:
+        case MEDIAN_FILER_5_WORKING_4:
         {
             uint16_t * data1 = data0 + 1;
             uint16_t * data2 = data0 + 2;
@@ -131,11 +141,12 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
-            object->index = index + 1;
+
+            object->state = MEDIAN_FILER_5_WORKING_5;
         }
         return false;
 
-        case 4:
+        case MEDIAN_FILER_5_WORKING_5:
         {
             uint16_t * data1 = data0 + 1;
             uint16_t * data2 = data0 + 2;
@@ -181,9 +192,10 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
                 *data1 = *data0;
                 *data0 = value;
             }
+
+            object->state = MEDIAN_FILER_5_READY;
+
             if(object->on_calculated) { object->on_calculated(object); }
-            object->index = 0;
-            object->old_median = *data2;
         }
         return true;
 
@@ -194,8 +206,7 @@ bool median_filter_5_uint16_add(median_filter_5_uint16_t * object, uint16_t valu
 
 void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
 {
-    object->old_median = 0;
-    object->index = 0;
+    object->state = MEDIAN_FILER_5_UNINIT;
 
 #if false
 
@@ -209,17 +220,46 @@ void median_filter_5_uint16_clear(median_filter_5_uint16_t * object)
 
 }
 
+void median_filter_5_uint16_get_data(const median_filter_5_uint16_t * object, uint16_t * data)
+{
+    data[0] = object->data[0];
+    data[1] = object->data[1];
+    data[2] = object->data[2];
+    data[3] = object->data[3];
+    data[4] = object->data[4];
+}
+
 void median_filter_5_uint16_init(median_filter_5_uint16_t * object)
 {
-    object->old_median = 0;
-    object->index = 0;
+    object->state = MEDIAN_FILER_5_UNINIT;
     object->on_calculated = NULL;
+    object->user_data = NULL;
 
     object->data[0] = 0;
     object->data[1] = 0;
     object->data[2] = 0;
     object->data[3] = 0;
     object->data[4] = 0;
+}
+
+bool median_filter_5_uint16_is_ready(const median_filter_5_uint16_t * object)
+{
+    return (MEDIAN_FILER_5_READY == object->state);
+}
+
+uint16_t median_filter_5_uint16_max(const median_filter_5_uint16_t * object)
+{
+    return object->data[MEDIAN_FILTER_5_DATA_INDEX_MAX];
+}
+
+uint16_t median_filter_5_uint16_median(const median_filter_5_uint16_t * object)
+{
+    return object->data[MEDIAN_FILTER_5_DATA_INDEX_MEDIAN];
+}
+
+uint16_t median_filter_5_uint16_min(const median_filter_5_uint16_t * object)
+{
+    return object->data[MEDIAN_FILTER_5_DATA_INDEX_MIN];
 }
 
 
