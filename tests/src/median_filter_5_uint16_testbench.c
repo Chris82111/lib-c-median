@@ -6,8 +6,10 @@
 #include <inttypes.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #include "median_filter_5_uint16.h"
+#include "median_filter_5_uint16_testbench.h"
 
 
 /*---------------------------------------------------------------------*
@@ -28,11 +30,9 @@
 
 static void run_example(void);
 static void run_handler(median_filter_5_uint16_t * object);
-static bool run_handler_test(void);
-static bool run_with_test_data_sub(uint16_t * input, uint16_t * result);
-static bool run_with_test_data(void);
-
-bool median_filter_5_uint16_test(void);
+static uint16_t run_handler_test(void);
+static uint16_t run_with_test_data_sub(uint16_t * input, uint16_t * result);
+static uint16_t run_with_test_data(void);
 
 
 /*---------------------------------------------------------------------*
@@ -40,7 +40,8 @@ bool median_filter_5_uint16_test(void);
  *---------------------------------------------------------------------*/
 
 static void run_example(void){
-    uint16_t min = 0, median = 0, max = 0;
+
+    uint16_t min = 0, max = 0, median;
 
     median_filter_5_uint16_t median5 = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -48,42 +49,38 @@ static void run_example(void){
 
     for(uint8_t i = 0; i < 5; i++)
     {
-        if(median_filter_5_uint16_add(&median5, input_data[i]))
+        if(median_filter_5_uint16.Add(&median5, input_data[i]))
         {
-            min = median5.data[0]; // is 1
-            median = median5.old_median; // is 2
-            max = median5.data[4]; // is 4
+            min = median_filter_5_uint16.Min(&median5); // is 1
+            median = median_filter_5_uint16.Median(&median5); // is 2
+            max = median_filter_5_uint16.Max(&median5); // is 4
         }
     }
 
     // Solves `variable set but not used`
-    min = median;
-    median = max;
-    max = min;
+    if(0 == min && 0 == max && 0 == median){ ; }
 }
 
 static void run_handler(median_filter_5_uint16_t * object)
 {
-    uint8_t i = object->length;
-    i = 8;
-    object->length = i;
+    object->data[0] = 100;
 }
 
-static bool run_handler_test(void)
+static uint16_t run_handler_test(void)
 {
     median_filter_5_uint16_t med = { 0 };
 
     uint16_t input_data[] = { 2, 1, 1, 1, 3 };
-    uint16_t result_data[] = { 1, 1, 1, 2, 3 };
+    // uint16_t result_data[] = { 1, 1, 1, 2, 3 };
 
-    med.calculated = run_handler;
+    med.on_calculated = run_handler;
 
     for(uint8_t i = 0; i < 5; i++)
     {
         median_filter_5_uint16_add(&med, input_data[i]);
     }
 
-    if(8 == med.length && result_data[2] == med.old_median)
+    if(100 == med.data[0])
     {
         return 0;
     }
@@ -93,7 +90,7 @@ static bool run_handler_test(void)
     }
 }
 
-static bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
+static uint16_t run_with_test_data_sub(uint16_t * input, uint16_t * result)
 {
     median_filter_5_uint16_t med = MEDIAN_FILTER_5_UINT16_INIT();
 
@@ -112,7 +109,7 @@ static bool run_with_test_data_sub(uint16_t * input, uint16_t * result)
     }
 }
 
-static bool run_with_test_data(void)
+static uint16_t run_with_test_data(void)
 {
     // Test data:
     // input_data
@@ -4846,33 +4843,43 @@ static bool run_with_test_data(void)
 
 }
 
+static uint16_t median_filter_5_uint16_test_set_data()
+{
+    uint16_t errors = 0;
+
+    median_filter_5_uint16_t med = MEDIAN_FILTER_5_UINT16_INIT();
+
+    uint16_t input_data[] = { 2, 1, 1, 1, 3 };
+    uint16_t result_data[] = { 1, 1, 1, 2, 3 };
+    uint16_t data[5] = { 0 };
+
+    median_filter_5_uint16.SetData(&med, input_data);
+    median_filter_5_uint16.GetData(&med, data);
+
+    if(0 != memcmp(data, result_data, sizeof(data))){ errors += 1; }
+    if(0 != memcmp(med.data, result_data, sizeof(data))){ errors += 1; }
+
+    return errors;
+}
+
+
 /*---------------------------------------------------------------------*
  *  public:  functions
  *---------------------------------------------------------------------*/
 
-/*
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern bool median_filter_5_uint16_test(void);
-
-#ifdef __cplusplus
-}
-#endif
-*/
-
-bool median_filter_5_uint16_test(void)
+uint16_t median_filter_5_uint16_test(void)
 {
-    run_example();
-
     uint16_t errors = 0;
 
     errors += run_with_test_data();
 
     errors += run_handler_test();
 
-    return (0 == errors);
+    errors += median_filter_5_uint16_test_set_data();
+
+    run_example();
+
+    return errors;
 }
 
 
