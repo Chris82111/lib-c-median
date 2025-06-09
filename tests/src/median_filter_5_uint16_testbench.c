@@ -54,14 +54,6 @@ static void run_example(void){
             min = median_filter_5_uint16.Min(&median5); // is 1
             median = median_filter_5_uint16.Median(&median5); // is 2
             max = median_filter_5_uint16.Max(&median5); // is 4
-
-            min = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MIN]; // is 1
-            median = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MEDIAN]; // is 2
-            max = median5.data[MEDIAN_FILTER_5_DATA_INDEX_MAX]; // is 4
-
-            min = median5.data[0]; // is 1
-            median = median5.data[2]; // is 2
-            max = median5.data[4]; // is 4
         }
     }
 
